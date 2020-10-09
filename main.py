@@ -30,7 +30,7 @@ def download_image(image_url, picture, book_id, folder='previews/'):
 
 
 url_pattern = 'https://tululu.org/'
-for book_id in range(1,11):
+for book_id in range(1, 11):
     url = f"{url_pattern}b{book_id}/"
     download_url = ''
     response = requests.get(url, allow_redirects=False)
@@ -55,14 +55,15 @@ for book_id in range(1,11):
     picture = soup.find('div', class_='bookimage').find('img')['src']
     comment_section_tag = soup.find('div', id='content').find_all('div', class_='texts')
     print(comment_section_tag)
-    #comment_tag = comment_section_tag.find_all('span', class_='black')
+    try:
+        comment_tag = comment_section_tag.find_all('span', class_='black')
     #print(comment_tag)
-    #except AttributeError:
-        #continue
-    #comment = comment_tag.text
-    #print(title)
-    #print(comment)
-    #image_url = urllib.parse.urljoin(url_pattern, picture)
-    #if download_url:
-        #download_txt(download_url, title, 'books/')
-    #download_image(image_url, picture, book_id)
+    except AttributeError:
+        continue
+    comment = comment_tag.text
+    print(title)
+    print(comment)
+    image_url = urllib.parse.urljoin(url_pattern, picture)
+    if download_url:
+        download_txt(download_url, title, 'books/')
+    download_image(image_url, picture, book_id)
