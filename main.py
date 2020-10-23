@@ -52,17 +52,27 @@ for book_id in range(1, 11):
     title_and_author = title_tag.text
     title_and_author = title_and_author.split('::')
     title = title_and_author[0].rstrip()
+    genres_tag = soup.find('div', id='content').find('span', class_='d_book').find_all('a')
+    genres = []
+    for genre in genres_tag:
+        genre = genre.text
+        genres.append(genre)
+    print(title)
+    print(genres)
     picture = soup.find('div', class_='bookimage').find('img')['src']
     comment_section_tag = soup.find('div', id='content').find_all('div', class_='texts')
-    print(comment_section_tag)
-    try:
-        comment_tag = comment_section_tag.find_all('span', class_='black')
+    comments = []
+    for comment in comment_section_tag:
+        comment = comment.text
+        comments.append(comment)
+        print(comments)
+    #try:
+    #comment_tag = comment_section_tag.find_all('span', class_='black')
     #print(comment_tag)
-    except AttributeError:
-        continue
-    comment = comment_tag.text
-    print(title)
-    print(comment)
+    #except AttributeError:
+        #continue
+    #comments = comment_tag.text
+    #print(comments)
     image_url = urllib.parse.urljoin(url_pattern, picture)
     if download_url:
         download_txt(download_url, title, 'books/')
